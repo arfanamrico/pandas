@@ -1,0 +1,38 @@
+import pandas as pd
+#membaca file CSV
+df = pd.read_csv('data.csv')
+print(df) #untuk menampilkan 5 baris teratas dan 5 baris terbawah
+print(df.to_string()) #untuk menampilkan semua baris yg ada dalam file
+print(df.head()) #menampilkan 5 baris teratas secara default apabila dalam kurung head kosong, bila head(10) maka menampikan 10 baris teratas
+print(df.tail()) #menampilkan 5 baris terbawah secara default apabila dalam kurung tail kosong, bila tail(10) maka menampilkan 10 baris terbawah
+print(df.info()) #menampilkan info jumlah baris, jumlah kolom, nama dan type data tiap kolom, menampilkan jumlah non nul value
+'''
+Data Cleaning
+Data cleaning means fixing bad data in your data set.
+Bad data could be:
+-Empty cells
+-Data in wrong format
+-Wrong data
+-Duplicates
+'''
+#=====menghapus nilai yg kosong pada setiap baris dengan membuat variabel/data baru
+new_df = df.dropna()
+print(new_df.info())
+#=====menghapus nilai yg kosong pada setiap baris tampa membuat variabel/data baru
+df.dropna(inplace=True)
+print(df.info())
+#=====mengganti/mengisi baris yg kosong dengan sebuah nilai contohnya nilai 130
+df.fillna(130, inplace=True)
+print(df.info())
+#=====mengisi baris yg kosong dengan suatu nilai pada kolom/baris tertentu
+df["Calories"].fillna(130, inplace = True)
+print(df.info())
+#=====menganti/mengisi baris yg kosong dengan nila rata2 pada suatu kolom
+x = df["Calories"].mean()
+df['Calories'].fillna(x, inplace=True)
+#=====mengganti/mengisi baris yg kosong dengan nilai tengah pada suatu kolom
+x = df["Calories"].median()
+df['Calories'].fillna(x, inplace=True)
+#=====mengganti/mengisi baris yg kosong dengan nilai yg sering muncul pada suatu kolom
+x = df["Calories"].mode()[0]
+df['Calories'].fillna(x, inplace=True)
