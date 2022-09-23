@@ -1,0 +1,15 @@
+#memilih baris dan kolom dengan loc dan iloc
+#memilih baris
+df.loc[[0,4,6,8], :] #memilih baris 0,4,6,8 dan semua kolom
+df.loc[:4, :] #memilih baris 0 sampai 4 dan semua kolom
+df.loc[0:4, :] #memilih baris 0 sampai 4 dan semua kolom
+df.loc[240:, :] #memilih baris ke 240 sampai akhir dan semua kolom
+#memilih kolom
+df.loc[: , 'kolom1'] #memilih simua baris dan kolom1 saja tampa menampilkan header kolom
+df.loc[: , ['kolom1']] #memilih semua baris dan kolom1 saja dengan menampilkan header kolom
+df.loc[: , ['kolom1','kolom2']] #memilih semua baris dan kolom1 dan kolom2 dengan menampilkan header
+df.loc[: , 'kolom1':'kolom4'] #memilih semua baris dan kolom1 sampai kolom4 dengan menampilkan header
+#memilih baris tertentu pada kolom tertentu 
+df.loc[df['total_bill'] > 40, :] #memilih nilai pada kolom total bill lebih besar dari 40 dan menampilkan semua kolom lain nya
+df.loc[(df['smoker']=='yes') & (df['total_bill'] > 35), :] #memilih kriteria tertentu pada 2 kolom dan menampilkan semua kolom lain nya
+df.loc[(df['smoker']=='yes') & (df['total_bill'] > 35), 'kolom3':'kolom6'] #memilih kriteria tertentu pada 2 kolom dan menampilkan kolom ke 3 sampai kolom ke 6
