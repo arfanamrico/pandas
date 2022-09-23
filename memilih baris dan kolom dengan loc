@@ -13,3 +13,4 @@ df.loc[: , 'kolom1':'kolom4'] #memilih semua baris dan kolom1 sampai kolom4 deng
 df.loc[df['total_bill'] > 40, :] #memilih nilai pada kolom total bill lebih besar dari 40 dan menampilkan semua kolom lain nya
 df.loc[(df['smoker']=='yes') & (df['total_bill'] > 35), :] #memilih kriteria tertentu pada 2 kolom dan menampilkan semua kolom lain nya
 df.loc[(df['smoker']=='yes') & (df['total_bill'] > 35), 'kolom3':'kolom6'] #memilih kriteria tertentu pada 2 kolom dan menampilkan kolom ke 3 sampai kolom ke 6
+df.loc[(df['smoker']=='yes') & (df['total_bill'] > 35), ['kolom3','kolom6']] #memilih kriteria tertentu pada 2 kolom dan menampilkan kolom ke 3 dan kolom ke 6
