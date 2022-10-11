@@ -4,3 +4,10 @@ df[["Last Name", "First Name"]] = df["Name"].str.split(",", expand=True) #split 
 
 #Cari 3 firstname yang paling banyak digunakan. Tips, dapatkan firstname, tanpa middle name.
 df["Name"].str.split(",").str.get(1).str.split(" ").str.get(2).value_counts().head(3)
+
+Parameter yang digunakan adalah
+
+expand: mengembalikan hasil split menjadi dataframe.
+n: jumlah split yang akan dilakukan.
+
+df["Position Title"].str.split(" ", n = 1, expand=True)
