@@ -1,0 +1,2 @@
+df.drop(columns='species', inplace=True) #menghapus 1 kolom yaitu kolom species
+df.drop(columns=['species','weigh','gender'], inplace=True) #menghapus lebih dari 1 kolom kita harus menggunakan list
