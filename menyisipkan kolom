@@ -1,0 +1,15 @@
+df.insert(3,'namacolbaru','kosong') # 3 adalah urutan kolom, kosong adalah isi dari nama kolom baru
+
+gender_loc = df.columns.get_loc(key='gender') # mendapatkan nomor urutan sebuah colom dengan formula
+
+df.insert(gender_loc+1,'namacolbaru',df['nama']) # menyisipkan kolom baru disebelah kolom kanan gender dari hasil mencari urutan kolom gender dengan formula
+
+#membuat colom baru yg value nya berdasarkan formula
+def heavy_cek (weight):
+  if weight > 4:
+    output = 'heavy'
+   else:
+    output = 'not heavy'
+   return output
+gender_loc = df.columns.get_loc(key='gender') 
+df.insert(gender_loc+1,'namacolbaru',df['wight'].apply(heavy_cek)) 
