@@ -1,0 +1,1 @@
+data = df1.merge(df2, on='lacci', how='left')
