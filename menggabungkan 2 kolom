@@ -6,3 +6,4 @@ df['nama'].str.cat(df['usia'].astype('str'), sep = '-').to_frame() #menggabungka
 
 df['nama_usia'] = df['nama'].astype(str) + df['usia'].astype(str) #untuk menggabungkan data yg type nya interger maka harus di ubah dulu menjadi string
 
+df['nama_usia'] = df.nama.str.cat(df.usia) #untuk menggabungkan data yg type nya interger maka harus di ubah dulu menjadi string
