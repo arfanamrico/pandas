@@ -3,3 +3,6 @@ df['nama_jk'] = df['nama'].str.cat(df['jenis_kelamin'], sep = ',')
 df['nama_usia'] = df['nama'].str.cat(df['usia'].astype('str'), sep = '-') #untuk menggabungkan data yg type nya interger maka harus di ubah dulu menjadi string
 
 df['nama'].str.cat(df['usia'].astype('str'), sep = '-').to_frame() #menggabungkan 2 kolom tampa menambah kolom baru maka di tambhakan .to_frame()
+
+df['nama_usia'] = df['nama'].astype(str) + df['usia'].astype(str) #untuk menggabungkan data yg type nya interger maka harus di ubah dulu menjadi string
+
