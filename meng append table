@@ -1,0 +1,2 @@
+df = pd.merge(dfRC05,dfSMT, how='outer') #menggabungkan 2 table dan menghapus yg duplikat dalam 1 baris pada semua kolom
+df = pd.merge(dfRC05,dfSMT, how='inner') #menampilkan 2 table yg nilai baris nya sama pada setiap kolom
