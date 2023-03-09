@@ -1,0 +1,11 @@
+import pandas as pd
+rank = []
+data = {'job':['dosen','pengacara','karyawan','pedagang'],
+        'omset':[2000,5000,2000,10000]}
+df = pd.DataFrame(data)
+for r in df['omset']:
+  if r == 10000: rank.append('satu')
+  elif r == 5000: rank.append('dua')
+  elif r == 2000: rank.append('tiga')
+df['rank'] = rank
+print(df)
