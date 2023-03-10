@@ -1,0 +1,2 @@
+df2gbh_pivot = df2gbh.groupby(by=['Sectorid'], as_index=False).agg({'MC_H3I_TCH_Traffic': 'mean'})
+# mean, count, max, min, dll
