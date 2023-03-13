@@ -1,0 +1,6 @@
+for i in range (0, len(df['Site ID MOCN'])):
+    if df.loc[i,'Site ID MOCN']=='04PBR0197': 
+        if df.loc[i, 'Band']== 'L1800':
+            num = i
+            break        
+print(num)
