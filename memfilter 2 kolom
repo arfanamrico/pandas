@@ -1,0 +1,1 @@
+site = df[(df['Site ID MOCN']=='04PBR0197') & (df['Band']== 'L900')]
