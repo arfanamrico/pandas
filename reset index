@@ -1,0 +1,1 @@
+ds = df[df['MC']== 'MC-TULANG BAWANG'].reset_index(drop=True)
