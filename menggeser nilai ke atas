@@ -1,0 +1,34 @@
+import pandas as pd
+import os
+
+rang = ['%RSRP >-95','%RSRP -95~-105','%RSRP -105~-112','%RSRP -112~-115','%RSRP <-115']
+dirpath = r"E:\test\heru\datamentah\MC-JAMBI BARAT.xlsx"
+
+df = pd.read_excel(dirpath, skiprows=1)
+df = pd.DataFrame(df)
+df = df.fillna('kosong')
+jmlbar = len(df.axes[0]) #menghitung jumlah baris
+jmlcol = len(df.axes[1]) #menghitung jumlah colom
+namakol = df.axes[1]
+data = {}
+for c in range(8, jmlcol):
+    nkol = namakol[c]
+    kolval = []
+    kol = {}
+    for i in range(0,jmlbar):
+        if df.loc[i,nkol] == 'kosong': pass
+        else: 
+            kolval.append(df.loc[i,nkol])
+    # print(len(kolval))
+    if len(kolval) == 0: 
+        for i in range(0,5):kolval.append('kosong')
+    else: pass        
+    # print(kolval)
+    kol.update({nkol:kolval})
+    # print(kol)    
+    data.update(kol)
+    # print(data)
+dat = pd.DataFrame(data)
+dat.insert(0,'Range',rang)
+dat = dat.replace('kosong','NaN')
+print(dat)
