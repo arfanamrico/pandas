@@ -1,0 +1,79 @@
+import pandas as pd
+import os
+
+rang = ['%RSRP >-95','%RSRP -95~-105','%RSRP -105~-112','%RSRP -112~-115','%RSRP <-115']
+dirpath = r"E:\test\heru\datamentah"
+savefile = r"E:\test\heru\datamentah\hasil"
+
+def prosesmaster():
+    global jumlahfile, master
+    df = pd.read_excel(path, skiprows=1)
+    df = pd.DataFrame(df)
+    df = df.fillna('kosong')
+    jmlbar = len(df.axes[0]) #menghitung jumlah baris
+    jmlcol = len(df.axes[1]) #menghitung jumlah colom
+    namakol = df.axes[1]
+    data = {}
+    for c in range(8, jmlcol):
+        nkol = namakol[c]
+        kolval = []
+        kol = {}
+        for i in range(0,jmlbar):
+            if df.loc[i,nkol] == 'kosong': pass
+            else: kolval.append(df.loc[i,nkol])
+        if len(kolval) == 0:
+            for i in range(0,5):kolval.append(0.0)
+        else: pass
+        kol.update({nkol:kolval})
+        data.update(kol)
+    master = pd.DataFrame(data)
+    master.insert(0,'Range',rang)
+    master.insert(0,'MC',nama)
+    # master = master.replace('kosong','NaN')
+    # master.astype('float')
+    # print(dat)
+    print(f'file {nama} append done!!!')
+    jumlahfile += 1
+def proses():
+    global jumlahfile, master
+    df = pd.read_excel(path, skiprows=1)
+    df = pd.DataFrame(df)
+    df = df.fillna('kosong')
+    jmlbar = len(df.axes[0]) #menghitung jumlah baris
+    jmlcol = len(df.axes[1]) #menghitung jumlah colom
+    namakol = df.axes[1]
+    data = {}
+    for c in range(8, jmlcol):
+        nkol = namakol[c]
+        kolval = []
+        kol = {}
+        for i in range(0,jmlbar):
+            if df.loc[i,nkol] == 'kosong': pass
+            else: kolval.append(df.loc[i,nkol])
+        if len(kolval) == 0:
+            for i in range(0,5):kolval.append(0.0)
+        else: pass
+        kol.update({nkol:kolval})
+        data.update(kol)
+    dat = pd.DataFrame(data)
+    dat.insert(0,'Range',rang)
+    dat.insert(0,'MC',nama)
+    # dat = dat.replace('kosong','NaN')
+    # dat.astype('float')
+    # print(dat)
+    master = master.merge(dat, how='outer')
+    # dat.to_excel(f'{savefile}/{nama}.xlsx',index=False)
+    print(f'file {nama} append done!!!')
+    jumlahfile += 1
+
+jumlahfile = 1
+for name in os.listdir(dirpath):
+    path = os.path.join(dirpath, name)
+    if path.endswith('.xlsx') and os.path.isfile(path):
+        nama = name.split('.')[0]
+        # proses()
+        if jumlahfile == 1: prosesmaster()
+        else: proses()
+# print(pd.DataFrame(master))        
+print('jumlah file: ',jumlahfile-1)
+master.to_excel(f'{dirpath}/combine.xlsx', index=False)        
