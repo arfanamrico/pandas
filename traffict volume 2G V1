@@ -1,0 +1,69 @@
+import pandas as pd
+import mysql.connector
+#======================
+mydb = mysql.connector.connect(
+  host="localhost",
+  user="root",
+  password="",
+  database="npm"
+)
+mycursor = mydb.cursor()
+#=========================
+path = r"E:\NPM\TP\CW13"
+#=========2G=========
+df = pd.read_excel(f'{path}/TP.xlsx', sheet_name='2G')
+df = pd.DataFrame(df)
+df['cekcellname'] = df['CellName'].str.replace('_HW','').str.replace('_QQ','').str.replace('_HH','').str.replace('_OY','').str.replace('_XY','').str.replace('_ZZZ','').str.replace('_ESX','').str.replace('_XXX','').str.replace('_OX','').str.replace('_O','').str.replace('_XX','').str.replace('ZZZ','').str.replace('E','')
+df['sectoral'] = df['cekcellname'].str[-1]
+df['sectoral'] = df['sectoral'].str.replace('4','1').str.replace('5','2').str.replace('6','3').str.replace('7','1').str.replace('8','2').str.replace('9','3')
+df['Sectorid'] = df['Site ID'].astype(str) +'-'+ df['sectoral'].astype(str)
+# df.to_excel(f'{savefile}/2GBH.xlsx', index=False, sheet_name='2G BH')
+df2gbh = df[['Sectorid','sectoral','SUM(MC_H3I_TCH_Traffic)','SUM(`MC_H3I_TrafficData(MB)`)/1024']]
+tchtraff_pivot = df2gbh.groupby(by=['Sectorid'], as_index=False).agg({'SUM(MC_H3I_TCH_Traffic)': 'mean'}) #pivot table tchtraffict
+datatraff_pivot = df2gbh.groupby(by=['Sectorid'], as_index=False).agg({'SUM(`MC_H3I_TrafficData(MB)`)/1024': 'mean'}) #pivot table data traffict
+print('collect data 2G ')
+#==================prosess tch traffict===================
+tchtraff_pivot['siteid'] = tchtraff_pivot['Sectorid'].str.split('-').str[0]
+tchtraff_pivot['sec'] = tchtraff_pivot['Sectorid'].str.split('-').str[1]
+sitelist = []
+pivottch = []
+for site in tchtraff_pivot['siteid']:
+    if site in sitelist: pass
+    else: sitelist.append(site)
+for site in sitelist:
+    sekt = []
+    sek1 = sek2 = sek3 = 0.0
+    for i in range(0,len(tchtraff_pivot['siteid'])):
+        if tchtraff_pivot.loc[i,'siteid'] == site: sekt.append(tchtraff_pivot.loc[i,'SUM(MC_H3I_TCH_Traffic)'])
+    if len(sekt) == 1: pivottch.append([site,sekt[0],sek2,sek3])
+    if len(sekt) == 2: pivottch.append([site,sekt[0],sekt[1],sek3])
+    if len(sekt) == 3: pivottch.append([site,sekt[0],sekt[1],sekt[2]])
+tch = pd.DataFrame(pivottch, columns=['siteid','tchsec1','tchsec2','tchsec3'])
+print('prosess tch traffict done')
+#==================prosess data traffict===================
+datatraff_pivot['siteid'] = datatraff_pivot['Sectorid'].str.split('-').str[0]
+datatraff_pivot['sec'] = datatraff_pivot['Sectorid'].str.split('-').str[1]
+pivotdata = []
+for site in sitelist:
+    sekt = []
+    sek1 = sek2 = sek3 = 0.0
+    for i in range(0,len(datatraff_pivot['siteid'])):
+        if datatraff_pivot.loc[i,'siteid'] == site: sekt.append(datatraff_pivot.loc[i,'SUM(`MC_H3I_TrafficData(MB)`)/1024'])
+    if len(sekt) == 1: pivotdata.append([site,sekt[0],sek2,sek3])
+    if len(sekt) == 2: pivotdata.append([site,sekt[0],sekt[1],sek3])
+    if len(sekt) == 3: pivotdata.append([site,sekt[0],sekt[1],sekt[2]])
+data = pd.DataFrame(pivotdata, columns=['siteid','datasec1','datasec2','datasec3'])
+print('prosess data traffict done')
+
+akhir = tch.merge(data, on='siteid', how='left')
+print('prosess merger tch dan data traffict done')
+akhir = akhir.rename(columns={'siteid':'Site ID'})
+#========sitelocation=========
+sql = "select `Site ID`,`Branch`,`Longtitude`,`Latitude` from sitelocation"
+siteloc = pd.read_sql_query(sql,mydb)
+#=====================
+akhir = akhir.merge(siteloc, on='Site ID', how='left')
+akhir['Tech'] = '2G'
+akhir[['Average Traffic Volume Daily (Gbyte)','Sec-4','Sec-5','Sec-6','Average Traffic CS (Erl)','Sec-4','Sec-5','Sec-6']] = ''
+akhir = akhir[['siteid','Longtitude','Latitude','Tech','Average Traffic Volume Daily (Gbyte)','Branch','datasec1','datasec2','datasec3','Sec-4','Sec-5','Sec-6','Average Traffic CS (Erl)','tchsec1','tchsec2','tchsec3','Sec-4','Sec-5','Sec-6']]
+akhir.to_excel(f'{path}/2Gvolume.xlsx', index=False, sheet_name='2G')
