@@ -1,0 +1,1 @@
+df['Total'] = df.iloc[:,4:10].sum(axis=1) # menjumlahkan nilai kolom 4 samapi kolom 10
