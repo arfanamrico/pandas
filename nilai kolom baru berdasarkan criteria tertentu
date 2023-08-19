@@ -1,0 +1,3 @@
+df.loc[df['Availability'] < 99,'avail'] = 'Nok'
+df.loc[df['Availability'] >= 99,'avail'] = 'Ok'
+print(df)
