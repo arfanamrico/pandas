@@ -1,2 +1,14 @@
 df2gbh_pivot = df2gbh.groupby(by=['Sectorid'], as_index=False).agg({'MC_H3I_TCH_Traffic': 'mean'})
 # mean, count, max, min, dll
+
+
+#==============reset index setelah di pivot==========================
+import pandas as pd
+
+path = r"D:\TSEL\filepelengkap\inventory.xlsx"
+
+dfrru = pd.read_excel(path,sheet_name='RRU')
+dfrru = pd.DataFrame(dfrru)
+dfrru['Site ID'] = dfrru['NEName'].str[2:8]
+rru = dfrru.pivot_table(values='NEType',index='Site ID',columns='Convert RRU.Type Board',aggfunc='count').reset_index()
+print(rru)
