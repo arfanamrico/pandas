@@ -12,3 +12,14 @@ dfrru = pd.DataFrame(dfrru)
 dfrru['Site ID'] = dfrru['NEName'].str[2:8]
 rru = dfrru.pivot_table(values='NEType',index='Site ID',columns='Convert RRU.Type Board',aggfunc='count').reset_index()
 print(rru)
+##============pivot tabel multiple colom==========
+import pandas as pd
+
+pat = r"D:\TSEL\RCI\rawantennaleveling.xlsx"
+
+df = pd.read_excel(pat)
+df = pd.DataFrame(df)
+df['SiteID-Sector'] = df['site_id'].astype(str)+"_"+df['sector_id'].astype(str)
+# print(df.head())
+pvt = df.pivot_table(index='SiteID-Sector',columns=['week','band'],values='prb_util_cell',aggfunc='mean').reset_index()
+print(pvt)
