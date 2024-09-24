@@ -1,0 +1,13 @@
+import os
+
+directory = r"D:\TSEL\MCOM_TSEL_W36_2024\MCOM_R10_4G_TSEL_W36_2024"
+
+dfs = []
+
+for root, dirs, files in os.walk(directory):
+  for file in files:
+    if file.endswicth(".csv"):
+      file_path = os.path.join(root,file)
+      df = pd.read_csv(file_path)
+      dfs.append(df)
+result = pd.concat(dfs, ignore_index=True)
