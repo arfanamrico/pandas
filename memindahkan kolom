@@ -1,0 +1,1 @@
+df.insert(13,'new',df.pop('new')) ##=====> memindahkan kolom new ke urutan 13
