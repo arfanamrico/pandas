@@ -1,0 +1,4 @@
+if df1.columns.to_list() == df2.columns.to_list():
+  print('sama')
+else:
+  print('tidak sama')
